@@ -1,5 +1,7 @@
 package sample.engine;
-
+/*
+     Модуль поиска (мозг программы)
+ */
 import sample.Controller;
 
 import java.io.File;
@@ -8,9 +10,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SearchFiles extends Controller implements Runnable{
-    private String directory;
-    private static String find_text;
-    private static String find_type;
+    private String directory; // Искомая директория
+    private static String find_text; // Искомый текст
+    private static String find_type; // Искомое расширение
+    private static volatile int id = 1; // ID результата
 
     public void setFind_type(String find_type) {
         this.find_type = find_type;
@@ -20,7 +23,6 @@ public class SearchFiles extends Controller implements Runnable{
         this.find_text = find_text;
     }
 
-    private static volatile int id = 1;
     public String getDirectory() {
         return directory;
     }
@@ -39,24 +41,26 @@ public class SearchFiles extends Controller implements Runnable{
         if (currentFiles == null) {
         }
         //Если есть, идем дальше и добавляем новую партию в массив
-        else {for (String i:
+        else {for (String new_directory:
                 currentFiles) {
             // Выводим полный путь файла
-            i = getDirectory()+"\\"+i;
+            new_directory = getDirectory()+"\\"+new_directory;
             // Ищем .log файл
             try{
+                // если ничего не ввели выставляем по-умолчанию .log
                 if(find_type.equals("")){
                     setFind_type(".log");
                 }
+                // Если не ввели искомый текст убираем его из условия
                 if(find_text.equals("")){
-                    if(i.contains(find_type)){
-                            res_files.add(new Container(id, i));
+                    if(new_directory.contains(find_type)){
+                            res_files.add(new Container(id, new_directory));
                             id++;
-
+                // Если все введено проверяем условия
                 }} else {
-                    if(i.contains(find_type)){
-                        if(new ControlSearchText().Control(i, find_text)) {
-                            res_files.add(new Container(id, i));
+                    if(new_directory.contains(find_type)){
+                        if(new ControlSearchText().Control(new_directory, find_text)) {
+                            res_files.add(new Container(id, new_directory));
                             id++;
                         }
                 }
@@ -68,18 +72,17 @@ public class SearchFiles extends Controller implements Runnable{
                 System.out.println("Error");
             }
             // Если это дирректория ищем далее, ищем в этой директории
-            if (new Control().search(i)){
+            if (new Control().search(new_directory)){
                 //Создаем пул потоков для рекурсии потоков
                 ExecutorService threadPool = Executors.newFixedThreadPool(1);
                 // Создаем и запускаем поток для поиска в директории
                 SearchFiles recursionThread = new SearchFiles();
-                recursionThread.setDirectory(i);
+                recursionThread.setDirectory(new_directory);
                 threadPool.execute(recursionThread);
                 // Закрываем потоки
                 threadPool.shutdown();
             }
         }}
-        //threadPool.shutdown();
     }
 }
 // Проверка директория ли это

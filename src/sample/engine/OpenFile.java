@@ -1,5 +1,8 @@
 package sample.engine;
 
+/*
+Открываем выбранный файл
+ */
 import java.io.*;
 import java.util.LinkedList;
 

@@ -1,22 +1,18 @@
 package sample;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import sample.engine.Container;
 import sample.engine.GetName;
 import sample.engine.OpenFile;
 import sample.engine.SearchFiles;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,14 +41,6 @@ public class Controller extends Container implements Initializable {
     @FXML
     private TextField what_find_text;
 
-
-    @FXML
-    public String getWhat_find_text() {
-        return this.what_find_text.getText();
-
-    }
-
-
     @FXML
     private Label change_name;
 
@@ -70,7 +58,6 @@ public class Controller extends Container implements Initializable {
         id_find.setCellValueFactory(new PropertyValueFactory<>("id"));
         name_file.setCellValueFactory(new PropertyValueFactory<>("name"));
         result_finder.setItems(res_files);
-        // Выбор одной строки по двойному клику
         result_finder.setRowFactory(tv -> {
             TableRow<Container> row = new TableRow<>();
             row.setOnMouseClicked(event -> {

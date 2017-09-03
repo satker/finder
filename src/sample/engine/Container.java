@@ -1,9 +1,7 @@
 package sample.engine;
-
-import sample.Controller;
-
-import java.util.LinkedList;
-
+/*
+Хранилище результатов
+ */
 public class Container{
     private volatile String name = new String();
 
@@ -31,9 +29,4 @@ public class Container{
     }
     public Container() {
     }
-    /*protected static volatile LinkedList<String> filesInDer = new LinkedList<>();
-
-    public void add_new_member(String str){
-        filesInDer.add(str);
-    }*/
 }
