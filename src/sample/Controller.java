@@ -95,8 +95,7 @@ public class Controller extends Container implements Initializable {
             /////// Вывод содержания
             String str_final = new String();
             for (Object i : new OpenFile().File(choose_res)) {
-                str_final += "\n";
-                str_final += i.toString();
+                str_final += "\n" + i.toString();
             }
             alert.setContentText(str_final);
             alert.showAndWait();

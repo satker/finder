@@ -47,18 +47,19 @@ public class SearchFiles extends Controller implements Runnable{
             new_directory = getDirectory()+"\\"+new_directory;
             // Ищем .log файл
             try{
+
                 // если ничего не ввели выставляем по-умолчанию .log
                 if(find_type.equals("")){
-                    setFind_type(".log");
+                    setFind_type("log");
                 }
                 // Если не ввели искомый текст убираем его из условия
                 if(find_text.equals("")){
-                    if(new_directory.contains(find_type)){
+                    if(new RegexControl().RegexControl(find_type, new GetName().getNameFile(new_directory))){
                             res_files.add(new Container(id, new_directory));
                             id++;
                 // Если все введено проверяем условия
                 }} else {
-                    if(new_directory.contains(find_type)){
+                    if(new RegexControl().RegexControl(find_type, new GetName().getNameFile(new_directory))){
                         if(new ControlSearchText().Control(new_directory, find_text)) {
                             res_files.add(new Container(id, new_directory));
                             id++;
