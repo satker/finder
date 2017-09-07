@@ -32,10 +32,9 @@ public class SearchFiles extends Controller implements Runnable {
         try {
             LinkedList<String> res_set = current_Files(directory);
             while (res_set.size() > 0) {
-                if (new File(res_set.getFirst()).isDirectory()) {
-                    res_set.addAll(current_Files(res_set.getFirst()));
-                    res_set.remove(0);
-                }
+                res_set.addAll(current_Files(res_set.getFirst()));
+                res_set.remove(0);
+
             }
 
         } catch (IOException e) {
