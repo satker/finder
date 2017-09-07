@@ -9,4 +9,5 @@ public class RegexControl {
         Matcher m = p.matcher(testString);
         return m.matches();
     }
+
 }

@@ -9,10 +9,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import sample.engine.Container;
-import sample.engine.GetName;
 import sample.engine.OpenFile;
 import sample.engine.SearchFiles;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -66,7 +66,7 @@ public class Controller extends Container implements Initializable {
                             Container clickedRow = row.getItem();
                             choose_res = clickedRow.getName();
                             /////// Вывод имени
-                            change_name.setText(new GetName().getNameFile(clickedRow.getName()));
+                            change_name.setText(new File(choose_res).getName());
                     /*try {
                         /////// Вывод содержания
                         String str_final = new String();
