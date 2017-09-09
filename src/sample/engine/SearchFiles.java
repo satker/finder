@@ -7,10 +7,14 @@ import sample.Controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SearchFiles extends Controller implements Runnable {
-    private String directory; // Искомая директория
+    private volatile String directory; // Искомая директория
     private static String find_text; // Искомый текст
     private static String find_type; // Искомое расширение
     private static volatile int id = 1; // ID результата
@@ -27,16 +31,33 @@ public class SearchFiles extends Controller implements Runnable {
         this.directory = directory;
     }
 
+    private static LinkedList<String> res_set;
+
     @Override
     public void run() {
         try {
-            LinkedList<String> res_set = current_Files(directory);
+            res_set = current_Files(directory);
+            ExecutorService threadPool = Executors.newCachedThreadPool();
             while (res_set.size() > 0) {
-                res_set.addAll(current_Files(res_set.getFirst()));
-                res_set.remove(0);
-
+                //threadPool.submit(() -> {
+                    try {
+                        for (Iterator<String> iterator = res_set.iterator(); iterator.hasNext(); ) {
+                            String one_res = iterator.next();
+                            res_set.addAll(current_Files(one_res));
+                            int i = res_set.indexOf(one_res);
+                            res_set.remove(i);
+                            break;
+                        }
+                    } catch (IOException e) {
+                        System.out.println("ERROR");
+                    }
+                //});
+                //res_set.addAll(current_Files(res_set.getFirst()));
+                //res_set.removeFirst();
+                //Files.setDirectory(res_set.getFirst());
+                //threadPool.execute(searchFiles);
             }
-
+            threadPool.shutdown();
         } catch (IOException e) {
             System.out.println("Error");
         }
@@ -61,7 +82,7 @@ public class SearchFiles extends Controller implements Runnable {
     }
 
 
-    private String add_files(String new_directory) throws IOException {
+    private synchronized String add_files(String new_directory) throws IOException {
         String result_find = null;
         // если ничего не ввели выставляем по-умолчанию .log
         if (find_type.equals("")) {
@@ -83,7 +104,7 @@ public class SearchFiles extends Controller implements Runnable {
         return result_find;
     }
 
-    private LinkedList<String> current_Files(String string) throws IOException {
+    private synchronized LinkedList<String> current_Files(String string) throws IOException {
         LinkedList<String> linkedList = new LinkedList<>();
         File file = new File(string);
         // Список файлов текущей директории
