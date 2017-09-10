@@ -31,7 +31,7 @@ public class SearchFiles extends Controller implements Runnable {
         this.directory = directory;
     }
 
-    private static LinkedList<String> res_set;
+    private LinkedList<String> res_set;
 
     @Override
     public void run() {
