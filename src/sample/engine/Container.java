@@ -1,6 +1,7 @@
 package sample.engine;
+
 /*
-Хранилище результатов
+Найденные файлы по искомым условиям
  */
 public class Container{
     private volatile String name = "";
