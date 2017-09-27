@@ -13,8 +13,8 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-interface Modules {
-    boolean Control(String what, String testString) throws IOException;
+interface Modules<T> {
+    boolean Control(T what, T testString) throws IOException;
 }
 
 public class SearchFiles extends Controller implements Runnable {
@@ -29,36 +29,27 @@ public class SearchFiles extends Controller implements Runnable {
     private static String find_type; // Искомое расширение
     private static volatile int id = 1; // ID результата
 
-    public static void setFind_type(String find_type) {
-        SearchFiles.find_type = find_type;
-    }
-
     @Override
     public void run() {
         try {
             LinkedList<String> res_set;
+            LinkedList<String> mem_for_remove = new LinkedList<>();
             res_set = current_Files(directory);
-            //ExecutorService threadPool = Executors.newCachedThreadPool();
             while (res_set.size() > 0) {
-                res_set.addAll(current_Files(res_set.getFirst()));
-                res_set.removeFirst();
-                /*Future f1 = threadPool.submit(() -> {
-                        try {
-                            res_set.addAll(current_Files(res_set.getFirst()));
-                            res_set.removeFirst();
-                        } catch (IOException e) {
-                            System.out.println("E");
-                        }
+                mem_for_remove.clear();
+                // Параллельные стримы для перебора коллекции
+                res_set.parallelStream().forEach(s -> {
+                    try {
+                        res_set.addAll(current_Files(s));
+                        mem_for_remove.add(s);
+                    } catch (IOException exp){
+                        System.out.println();
+                    }
                 });
-                while (!f1.isDone()) {
-                }*/
+                res_set.removeAll(mem_for_remove);
             }
-            //threadPool.shutdown();
-        } catch (
-                IOException e)
-
-        {
-            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println("error");
         }
     }
 
@@ -68,13 +59,13 @@ public class SearchFiles extends Controller implements Runnable {
         String type = find_type;
         String text = new File(new_directory).getName();
         // Проверка файла и его пути на искомое расширение
-        Modules control_file_type = (what, testString) -> {
+        Modules<String> control_file_type = (what, testString) -> {
             Pattern p = Pattern.compile(".+\\." + what + "$");
             Matcher m = p.matcher(testString);
             return m.matches();
         };
         // Проверка наличия искомого текста в файле
-        Modules control_text = ((file_name, find_text) -> {
+        Modules<String> control_text = (file_name, find_text) -> {
             boolean result_bool = false;
             File file = new File(file_name);
             BufferedReader fin = new BufferedReader(new FileReader(file));
@@ -85,10 +76,10 @@ public class SearchFiles extends Controller implements Runnable {
                 }
             }
             return result_bool;
-        });
+        };
         // если ничего не ввели выставляем по-умолчанию .log
         if (type.equals("")) {
-            setFind_type("log");
+            type = "log";
         }
         // Если не ввели искомый текст убираем его из условия
         if (type.equals("")) {
