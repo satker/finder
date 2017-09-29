@@ -9,9 +9,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 interface Modules<T> {
     boolean Control(T what, T testString) throws IOException;
@@ -56,7 +59,6 @@ public class SearchFiles extends Controller implements Runnable {
 
     private synchronized String add_files(String new_directory) throws IOException {
         String result_find = null;
-        String type = find_type;
         String text = new File(new_directory).getName();
         // Проверка файла и его пути на искомое расширение
         Modules<String> control_file_type = (what, testString) -> {
@@ -66,30 +68,29 @@ public class SearchFiles extends Controller implements Runnable {
         };
         // Проверка наличия искомого текста в файле
         Modules<String> control_text = (file_name, find_text) -> {
-            boolean result_bool = false;
-            File file = new File(file_name);
-            BufferedReader fin = new BufferedReader(new FileReader(file));
-            String line;
-            while ((line = fin.readLine()) != null) {
-                if (line.contains(find_text)) {
-                    result_bool = true;
-                }
-            }
-            return result_bool;
+            Stream<String> stream = Files.lines(Paths.get(file_name));
+            //File file = new File(file_name);
+            //BufferedReader fin = new BufferedReader(new FileReader(file));
+            //String line;
+            //while ((line = fin.readLine()) != null) {
+            //    if (line.contains(find_text)) {
+            //        result_bool = true;
+            //    }
+            //}
+            return stream.anyMatch((s)->s.contains(find_text));
         };
         // если ничего не ввели выставляем по-умолчанию .log
-        if (type.equals("")) {
-            type = "log";
+        if (find_type.equals("")) {
+            find_type = "log";
         }
         // Если не ввели искомый текст убираем его из условия
-        if (type.equals("")) {
-            if (control_file_type.Control(type, text)) {
+        if (find_text.equals("")) {
+            if (control_file_type.Control(find_type, text)) {
                 result_find = new_directory;
-                // Если все введено проверяем условия
             }
         } else {
-            if (control_file_type.Control(type, text)) {
-                if (control_text.Control(new_directory, find_text)) {
+            if (control_file_type.Control(find_type, text)) {
+                if(control_text.Control(new_directory, find_text)) {
                     result_find = new_directory;
                 }
             }
