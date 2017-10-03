@@ -35,16 +35,16 @@ public class SearchFiles extends Controller implements Runnable {
     @Override
     public void run() {
         LinkedList<String> res_set;
-        LinkedList<String> mem_for_remove = new LinkedList<>();
+        LinkedList<String> mem_for_add = new LinkedList<>();
         res_set = current_Files(directory);
         while (res_set.size() > 0) {
-            mem_for_remove.clear();
+            mem_for_add.clear();
             // Параллельные стримы для перебора коллекции
-            res_set.parallelStream().forEach(s -> {
-                res_set.addAll(current_Files(s));
-                mem_for_remove.add(s);
-            });
-            res_set.removeAll(mem_for_remove);
+            res_set.parallelStream().forEach(s ->
+                    mem_for_add.addAll(current_Files(s))
+            );
+            res_set.clear();
+            res_set.addAll(mem_for_add);
         }
     }
 
