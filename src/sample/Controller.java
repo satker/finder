@@ -1,29 +1,16 @@
 package sample;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
 import sample.engine.Container;
 import sample.engine.SearchFiles;
 
-import javax.swing.event.AncestorEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -69,7 +56,7 @@ public class Controller extends Container implements Initializable {
     private static String choose_res;
 
     @FXML
-    private void startFind(ActionEvent actionEvent) {
+    private void startFind() {
         SearchFiles mem_find = new SearchFiles(inner_finder.getText(), what_find_text.getText(), what_find.getText());
         ExecutorService pool = Executors.newCachedThreadPool();
         pool.execute(mem_find);
