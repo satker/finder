@@ -35,25 +35,22 @@ public class SearchFiles extends Controller implements Runnable {
 
     @Override
     public void run() {
-        LinkedList<String> res_set;
-        LinkedList<String> mem_for_add = new LinkedList<>();
         directory = directory.equals("") ? "C:\\" : directory;
         find_type = find_type.equals("") ? "log" : find_type; // если ничего не ввели выставляем по-умолчанию .log
-        res_set = current_Files(directory);
+        LinkedList<String> res_set = current_Files(directory);
+        LinkedList<String> mem_for_add = new LinkedList<>();
         while (res_set.size() > 0) {
-            mem_for_add.clear();
             // Параллельные стримы для перебора коллекции
             res_set.parallelStream().filter(Objects::nonNull).forEach(s ->
                     mem_for_add.addAll(current_Files(s))
             );
             res_set.clear();
             res_set.addAll(mem_for_add);
+            mem_for_add.clear();
         }
     }
 
     private synchronized String add_files(String new_directory) throws IOException {
-        String result_find = null;
-        String text = new File(new_directory).getName();
         // Проверка файла и его пути на искомое расширение
         Modules<String> control_file_type = (what, testString) -> {
             Pattern p = Pattern.compile(".+\\." + what + "$");
@@ -65,28 +62,24 @@ public class SearchFiles extends Controller implements Runnable {
             Stream<String> stream = Files.lines(Paths.get(file_name));
             return stream.anyMatch(s -> s.contains(find_text));
         };
-        if (control_file_type.Control(find_type, text)) {
-            result_find = find_text.equals("") ?
-                    new_directory :
-                    (control_text.Control(new_directory, find_text) ?
-                            new_directory :
-                            null);
-        }
-        return result_find;
+        return control_file_type.Control(find_type, new File(new_directory).getName()) &&
+                (find_text.equals("") || control_text.Control(new_directory, find_text)) ?
+                new_directory :
+                null;
     }
 
     private synchronized LinkedList<String> current_Files(String string) {
         LinkedList<String> linkedList = new LinkedList<>();
-        File file = new File(string);
         // Список файлов текущей директории
-        String[] currentFiles = file.list();
+        String[] currentFiles = new File(string).list();
         if (currentFiles != null) {
-            Arrays.stream(currentFiles).map(i -> string + "\\" + i)
+            Arrays.stream(currentFiles).filter(Objects::nonNull).map(i -> string + "\\" + i)
                     .forEach(i -> {
                         try {
+                            String add_f = add_files(i);
                             // Если файл делаем сразу проверку
-                            if (new File(i).isFile() && !(add_files(i) == null) && new File(i).canRead()) {
-                                res_files.add(new Container(id, add_files(i)));
+                            if (new File(i).isFile() && !(add_f == null) && new File(i).canRead()) {
+                                res_files.add(new Container(id, add_f));
                                 id++;
                             }
                             // Если каталог записываем в колекцию и продолжаем поиск
