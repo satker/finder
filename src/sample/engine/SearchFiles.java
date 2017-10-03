@@ -36,6 +36,9 @@ public class SearchFiles extends Controller implements Runnable {
     public void run() {
         LinkedList<String> res_set;
         LinkedList<String> mem_for_add = new LinkedList<>();
+        if (directory.equals("")) {
+            directory = "C:\\";
+        }
         res_set = current_Files(directory);
         while (res_set.size() > 0) {
             mem_for_add.clear();

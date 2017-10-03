@@ -8,7 +8,7 @@
 <AnchorPane prefHeight="471.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
        <Button layoutX="560.0" layoutY="37.0" mnemonicParsing="false" onAction="#startFind" prefHeight="25.0" prefWidth="130.0" text="Начать поиск" />
-       <TextField fx:id="inner_finder" layoutX="21.0" layoutY="37.0" />
+       <TextField fx:id="inner_finder" layoutX="21.0" layoutY="37.0" promptText="C:\" />
        <Label layoutX="21.0" layoutY="126.0" prefHeight="17.0" prefWidth="130.0" text="Результаты поиска :" />
        <TableView fx:id="result_finder" layoutX="13.0" layoutY="153.0" prefHeight="304.0" prefWidth="339.0">
            <columns>

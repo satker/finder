@@ -66,8 +66,8 @@
       <file leaf-file-name="SearchFiles.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/engine/SearchFiles.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-595">
-              <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+            <state relative-caret-position="170">
+              <caret line="34" column="13" lean-forward="true" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -121,7 +121,7 @@
             <state relative-caret-position="306">
               <caret line="18" column="14" lean-forward="false" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
               <folding>
-                <marker date="1507020934091" expanded="true" signature="2113:2127" ph="..." />
+                <marker date="1507021047412" expanded="true" signature="2130:2144" ph="..." />
               </folding>
             </state>
           </provider>
@@ -184,7 +184,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="371" />
     <option name="y" value="6" />
     <option name="width" value="981" />
@@ -487,15 +487,15 @@
       <workItem from="1506958666731" duration="636000" />
       <workItem from="1507013007565" duration="44000" />
       <workItem from="1507013244864" duration="2939000" />
-      <workItem from="1507020116286" duration="836000" />
+      <workItem from="1507020116286" duration="1212000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="172043000" />
+    <option name="totallyTimeSpent" value="172419000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="371" y="6" width="981" height="734" extended-state="1" />
+    <frame x="371" y="6" width="981" height="734" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -859,7 +859,7 @@
         <state relative-caret-position="306">
           <caret line="18" column="14" lean-forward="false" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
           <folding>
-            <marker date="1507020934091" expanded="true" signature="2113:2127" ph="..." />
+            <marker date="1507021047412" expanded="true" signature="2130:2144" ph="..." />
           </folding>
         </state>
       </provider>
@@ -874,8 +874,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/engine/SearchFiles.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-595">
-          <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+        <state relative-caret-position="170">
+          <caret line="34" column="13" lean-forward="true" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
