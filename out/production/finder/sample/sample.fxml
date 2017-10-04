@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-
-<AnchorPane prefHeight="471.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-   <children>
-       <Button layoutX="560.0" layoutY="37.0" mnemonicParsing="false" onAction="#startFind" prefHeight="25.0" prefWidth="130.0" text="Начать поиск" />
-       <TextField fx:id="inner_finder" layoutX="21.0" layoutY="37.0" promptText="C:\" />
-       <Label layoutX="21.0" layoutY="126.0" prefHeight="17.0" prefWidth="130.0" text="Результаты поиска :" />
-       <TableView fx:id="result_finder" layoutX="13.0" layoutY="153.0" prefHeight="304.0" prefWidth="339.0">
-           <columns>
-               <TableColumn fx:id="id_find" prefWidth="33.0" text="№" />
-               <TableColumn fx:id="name_file" prefWidth="627.0000076293945" text="Name" />
-           </columns>
-       </TableView>
-       <Label layoutX="27.0" layoutY="14.0" prefHeight="17.0" prefWidth="156.0" text="Введите директорию:" />
-       <Label layoutX="197.0" layoutY="14.0" prefHeight="17.0" prefWidth="156.0" text="Введите расширение файла:" />
-       <TextField fx:id="what_find" layoutX="197.0" layoutY="37.0" prefHeight="25.0" prefWidth="156.0" promptText="log" />
-       <Label layoutX="21.0" layoutY="87.0" prefHeight="17.0" prefWidth="102.0" text="Название файла:" />
-       <Label fx:id="change_name" layoutX="141.0" layoutY="83.0" prefHeight="25.0" prefWidth="331.0" />
-       <Button layoutX="484.0" layoutY="83.0" mnemonicParsing="false" onAction="#openFile" prefHeight="25.0" prefWidth="102.0" text="Открыть файл" />
-       <Label layoutX="372.0" layoutY="14.0" text="Введите текст для поиска:" />
-       <TextField fx:id="what_find_text" layoutX="372.0" layoutY="37.0" />
-       <TextArea fx:id="text_output_file" layoutX="370.0" layoutY="153.0" prefHeight="304.0" prefWidth="331.0" />
-       <Label layoutX="370.0" layoutY="126.0" prefHeight="17.0" prefWidth="169.0" text="Текст в файле :" />
-   </children>
+<AnchorPane prefHeight="471.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sample.Controller">
+    <Button layoutX="560.0" layoutY="37.0" mnemonicParsing="false" onAction="#startFind" prefHeight="25.0"
+            prefWidth="130.0" text="Начать поиск"/>
+    <TextField fx:id="inner_finder" layoutX="21.0" layoutY="37.0" promptText="C:\"/>
+    <Label layoutX="21.0" layoutY="126.0" prefHeight="17.0" prefWidth="130.0" text="Результаты поиска :"/>
+    <TableView fx:id="result_finder" layoutX="13.0" layoutY="153.0" prefHeight="304.0" prefWidth="339.0">
+        <columns>
+            <TableColumn fx:id="id_find" prefWidth="33.0" text="№"/>
+            <TableColumn fx:id="name_file" prefWidth="627.0000076293945" text="Name"/>
+        </columns>
+    </TableView>
+    <Label layoutX="27.0" layoutY="14.0" prefHeight="17.0" prefWidth="156.0" text="Введите директорию:"/>
+    <Label layoutX="197.0" layoutY="14.0" prefHeight="17.0" prefWidth="156.0" text="Введите расширение файла:"/>
+    <TextField fx:id="what_find" layoutX="197.0" layoutY="37.0" prefHeight="25.0" prefWidth="156.0" promptText="log"/>
+    <Label layoutX="21.0" layoutY="87.0" prefHeight="17.0" prefWidth="102.0" text="Название файла:"/>
+    <Label fx:id="change_name" layoutX="141.0" layoutY="83.0" prefHeight="25.0" prefWidth="331.0"/>
+    <Button layoutX="484.0" layoutY="83.0" mnemonicParsing="false" onAction="#openFile" prefHeight="25.0"
+            prefWidth="102.0" text="Открыть файл"/>
+    <Label layoutX="372.0" layoutY="14.0" text="Введите текст для поиска:"/>
+    <TextField fx:id="what_find_text" layoutX="372.0" layoutY="37.0"/>
+    <TextArea fx:id="text_output_file" layoutX="370.0" layoutY="153.0" prefHeight="304.0" prefWidth="331.0"/>
+    <Label layoutX="370.0" layoutY="126.0" prefHeight="17.0" prefWidth="169.0" text="Текст в файле :"/>
 </AnchorPane>

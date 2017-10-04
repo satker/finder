@@ -7,6 +7,7 @@ import sample.Controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -23,9 +24,9 @@ interface Modules {
 
 public class SearchFiles extends Controller implements Runnable {
     public SearchFiles(String directory, String find_text, String find_type) {
-        this.directory = directory;
+        this.directory = directory.trim();
         SearchFiles.find_text = find_text;
-        SearchFiles.find_type = find_type;
+        SearchFiles.find_type = find_type.trim();
     }
 
     private String directory; // Искомая директория
@@ -41,8 +42,10 @@ public class SearchFiles extends Controller implements Runnable {
     };
     // Проверка наличия искомого текста в файле
     private Modules control_text = (file_name, find_text) -> {
-        Stream<String> stream = Files.lines(Paths.get(file_name));
-        return stream.anyMatch(s -> s.contains(find_text));
+        Stream<String> stream = Files.
+                lines(Paths.get(file_name), Charset.forName("ISO-8859-1"));
+        return stream.
+                anyMatch(s -> s.contains(find_text));
     };
 
     @Override
@@ -69,8 +72,8 @@ public class SearchFiles extends Controller implements Runnable {
                     .forEach(i -> {
                         try {
                             File file = new File(i);
-                            String add_file = (control_file_type.control(find_type, file.getName()) &&
-                                    (find_text.equals("") || control_text.control(i, find_text))) ?
+                            String add_file = (file.canRead() && control_file_type.control(find_type, file.getName()) &&
+                                    (find_text.equals("") || control_text.control(i, find_text)) ) ?
                                     i : null;
                             // Если файл делаем сразу проверку
                             if (file.isFile() && add_file != null && file.canRead()) {

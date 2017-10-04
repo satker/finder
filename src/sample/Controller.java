@@ -11,18 +11,22 @@ import javafx.scene.input.MouseButton;
 import sample.engine.Container;
 import sample.engine.SearchFiles;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 interface OpenFile {
-    LinkedList File(String str) throws IOException;
+    List File(String str) throws IOException;
 }
 
 public class Controller extends Container implements Initializable {
@@ -83,12 +87,13 @@ public class Controller extends Container implements Initializable {
     private void openFile() {
         try {
             OpenFile open_file_text = (str) -> {
-                File file = new File(str);
-                BufferedReader fin = new BufferedReader(new FileReader(file));
-                LinkedList<String> linkedList = new LinkedList<>();
-                String line;
-                while ((line = fin.readLine()) != null) {
-                    linkedList.add(line);
+                List<String> linkedList = new LinkedList<>();
+                try (Stream<String> stream = Files.lines(Paths.get(str), Charset.forName("ISO-8859-1"))) {
+                    linkedList = stream
+                            .collect(Collectors.toList());
+
+                } catch (IOException e) {
+                    System.out.println("error_exception");
                 }
                 return linkedList;
             };
