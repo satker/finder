@@ -17,7 +17,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 interface OpenFile {
-    List File(String str) throws IOException;
+    String File(String str);
 }
 
 public class Controller extends Container implements Initializable {
@@ -85,33 +84,30 @@ public class Controller extends Container implements Initializable {
 
     @FXML
     private void openFile() {
-        try {
-            OpenFile open_file_text = (str) -> {
-                List<String> linkedList = new LinkedList<>();
-                try (Stream<String> stream = Files.lines(Paths.get(str), Charset.forName("ISO-8859-1"))) {
-                    linkedList = stream
-                            .collect(Collectors.toList());
-
-                } catch (IOException e) {
-                    System.out.println("error_exception");
-                }
-                return linkedList;
-            };
-            /////// Вывод содержания
-            String str_final = "";
-            for (Object i : open_file_text.File(choose_res)) {
-                str_final = str_final.concat("\n" + i.toString());
+        // Вывод содержимого файла
+        OpenFile open_file_text = (str) -> {
+            String result;
+            try (Stream<String> stream = Files.lines(Paths.get(str), Charset.forName("ISO-8859-1"))) {
+                List<String> linkedList = stream.
+                        collect(Collectors.toList()).
+                        stream().
+                        map(a -> "\n" + a).
+                        reduce(String::concat).
+                        stream().
+                        collect(Collectors.toList());
+                result = linkedList.get(0);
+            } catch (IOException e) {
+                result = "error_exception";
             }
-            text_output_file.textProperty().addListener((ChangeListener<Object>) (observable, oldValue, newValue) -> {
-                text_output_file.setScrollTop(Double.MAX_VALUE); //this will scroll to the bottom
-                //use Double.MIN_VALUE to scroll to the top
-            });
-            text_output_file.setText(str_final);
-            text_output_file.appendText("");
-            /////////
-        } catch (IOException e) {
-            System.out.println("File not Found");
-        }
+            return result;
+        };
+        text_output_file.textProperty().addListener((ChangeListener<Object>) (observable, oldValue, newValue) -> {
+            text_output_file.setScrollTop(Double.MAX_VALUE); //this will scroll to the bottom
+            //use Double.MIN_VALUE to scroll to the top
+        });
+        text_output_file.setText(open_file_text.File(choose_res));
+        //text_output_file.appendText("");
+        /////////
     }
 
     @Override

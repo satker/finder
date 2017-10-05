@@ -3,6 +3,7 @@ package sample.engine;
      Модуль поиска (мозг программы)
  */
 
+import org.jetbrains.annotations.NotNull;
 import sample.Controller;
 
 import java.io.File;
@@ -23,7 +24,7 @@ interface Modules {
 }
 
 public class SearchFiles extends Controller implements Runnable {
-    public SearchFiles(String directory, String find_text, String find_type) {
+    public SearchFiles(@NotNull String directory, String find_text, @NotNull String find_type) {
         this.directory = directory.trim();
         SearchFiles.find_text = find_text;
         SearchFiles.find_type = find_type.trim();
