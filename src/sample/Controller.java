@@ -19,8 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -61,9 +59,8 @@ public class Controller extends Container implements Initializable {
     @FXML
     private void startFind() {
         SearchFiles mem_find = new SearchFiles(inner_finder.getText(), what_find_text.getText(), what_find.getText());
-        ExecutorService pool = Executors.newCachedThreadPool();
-        pool.execute(mem_find);
-        pool.shutdown();
+        Thread main_thread = new Thread(mem_find);
+        main_thread.start();
         id_find.setCellValueFactory(new PropertyValueFactory<>("id"));
         name_file.setCellValueFactory(new PropertyValueFactory<>("name"));
         result_finder.setItems(res_files);
